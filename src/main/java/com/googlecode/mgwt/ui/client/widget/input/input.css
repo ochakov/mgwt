@@ -31,7 +31,6 @@
 .mgwt-InputBox-box, .mgwt-TextArea, .mgwt-InputBox-box {
   color: #777;
   border: 0;
-  font: normal 17px Helvetica;
   padding: 0;
   display: flex;
   flex: 1;

@@ -43,7 +43,7 @@ public class MTextBox extends MTextBoxBase {
 	}
 
 	public MTextBox() {
-		this(InputApperanceHolder.DEFAULT_APPERAERANCE);
+		this(InputAppearanceHolder.DEFAULT_APPEARANCE);
 	}
 
 	public MTextBox(InputAppearance appearance) {

@@ -40,7 +40,7 @@ public class MPasswordTextBox extends MTextBox {
 	}
 
 	public MPasswordTextBox() {
-		this(InputApperanceHolder.DEFAULT_APPERAERANCE);
+		this(InputAppearanceHolder.DEFAULT_APPEARANCE);
 	}
 
 	public MPasswordTextBox(InputAppearance appearance) {

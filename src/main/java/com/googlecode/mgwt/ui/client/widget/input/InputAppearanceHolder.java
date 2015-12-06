@@ -1,12 +1,12 @@
 /*
- * Copyright 2011 Daniel Kurka
- * 
+ * Copyright 2014 Daniel Kurka
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -15,21 +15,11 @@
  */
 package com.googlecode.mgwt.ui.client.widget.input;
 
+import com.google.gwt.core.shared.GWT;
 
-/**
- * An input element that accepts email addresses
- *
- * @author Daniel Kurka
- */
-public class MEmailTextBox extends MTextBox {
+public class InputAppearanceHolder {
 
-	public MEmailTextBox() {
-		this(InputAppearanceHolder.DEFAULT_APPEARANCE);
+  public static final InputAppearance DEFAULT_APPEARANCE = GWT.create(InputAppearance.class);
 
-	}
-
-	public MEmailTextBox(InputAppearance appearance) {
-		super(appearance);
-		impl.setType(box.getElement(), "email");
-	}
+  private InputAppearanceHolder() {}
 }

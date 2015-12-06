@@ -7,12 +7,10 @@ import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.user.client.Window;
 import com.google.web.bindery.event.shared.EventBus;
-
-import com.googlecode.mgwt.dom.client.event.orientation.OrientationChangeEvent;
 import com.googlecode.mgwt.dom.client.event.orientation.OrientationChangeEvent.ORIENTATION;
 import com.googlecode.mgwt.ui.client.util.OrientationHandler;
-import com.googlecode.mgwt.ui.client.widget.main.MainResourceHolder;
 import com.googlecode.mgwt.ui.client.widget.main.MainResourceAppearance.UtilCss;
+import com.googlecode.mgwt.ui.client.widget.main.MainResourceHolder;
 
 public abstract class BaseOrientationHandler implements OrientationHandler {
 	private static native JavaScriptObject setupOrientation0(
@@ -111,7 +109,7 @@ public abstract class BaseOrientationHandler implements OrientationHandler {
 
   void fireOrientationChangedEvent(ORIENTATION orientation) {
   	setClasses(orientation);
-  	manager.fireEvent(new OrientationChangeEvent(orientation));
+  	//manager.fireEvent(new OrientationChangeEvent(orientation));
   }
 
   private void onorientationChange(int orientation) {

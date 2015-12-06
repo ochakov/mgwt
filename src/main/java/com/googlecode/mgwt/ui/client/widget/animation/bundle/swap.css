@@ -4,21 +4,32 @@
   -webkit-transform: perspective(800);
   -webkit-animation-duration: .7s;
   -webkit-transform-style: preserve-3d;
+  animation-timing-function: ease-in-out;
+  animation-fill-mode: both;
+  transform: perspective(800);
+  animation-duration: .7s;
+  transform-style: preserve-3d;
 }
 
 .out {
   -webkit-animation-name: swapouttoleft;
-}
-.in {
-  -webkit-animation-name: swapinfromright;
-}
-.out.reverse {
-  -webkit-animation-name: swapouttoright;
-}
-.in.reverse {
-  -webkit-animation-name: swapinfromleft;
+  animation-name: swapouttoleft;
 }
 
+.in {
+  -webkit-animation-name: swapinfromright;
+  animation-name: swapinfromright;
+}
+
+.out.reverse {
+  -webkit-animation-name: swapouttoright;
+  animation-name: swapouttoright;
+}
+
+.in.reverse {
+  -webkit-animation-name: swapinfromleft;
+  animation-name: swapinfromleft;
+}
 
 @-webkit-keyframes swapouttoright {
   0% {
@@ -77,5 +88,65 @@
   }
   100% {
     -webkit-transform: translate3d(0px, 0px, 0px) rotateY(0deg);
+  }
+}
+
+@keyframes swapouttoright {
+  0% {
+    transform: translate3d(0px, 0px, 0px) rotateY(0deg);
+    animation-timing-function: ease-in-out;
+  }
+  50% {
+    transform: translate3d(-180px, 0px, -400px) rotateY(20deg);
+    animation-timing-function: ease-in;
+    opacity: 0.8;
+  }
+  100% {
+      transform:  translate3d(0px, 0px, -800px) rotateY(70deg);
+      opacity: 0;
+  }
+}
+
+@keyframes swapouttoleft {
+  0% {
+    transform: translate3d(0px, 0px, 0px) rotateY(0deg);
+    animation-timing-function: ease-in-out;
+  }
+  50% {
+    transform:  translate3d(180px, 0px, -400px) rotateY(-20deg);
+    animation-timing-function: ease-in;
+    opacity: 0.8;
+  }
+  100% {
+    transform: translate3d(0px, 0px, -800px) rotateY(-70deg);
+    opacity: 0;
+  }
+}
+
+@keyframes swapinfromright {
+  0% {
+    transform: translate3d(0px, 0px, -800px) rotateY(70deg);
+    animation-timing-function: ease-out;
+  }
+  50% {
+    transform: translate3d(-180px, 0px, -400px) rotateY(20deg);
+    animation-timing-function: ease-in-out;
+  }
+  100% {
+    transform: translate3d(0px, 0px, 0px) rotateY(0deg);
+  }
+}
+
+@keyframes swapinfromleft {
+  0% {
+    transform: translate3d(0px, 0px, -800px) rotateY(-70deg);
+    animation-timing-function: ease-out;
+  }
+  50% {
+    transform: translate3d(180px, 0px, -400px) rotateY(-20deg);
+    animation-timing-function: ease-in-out;
+  }
+  100% {
+    transform: translate3d(0px, 0px, 0px) rotateY(0deg);
   }
 }

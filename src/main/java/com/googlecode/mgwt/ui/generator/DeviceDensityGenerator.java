@@ -31,7 +31,7 @@ import com.googlecode.mgwt.ui.client.FormFactor;
  */
 public class DeviceDensityGenerator extends RebindingGenerator {
 
-  protected void writeImplementatioon(TreeLogger logger, SelectionProperty property, SourceWriter writer) {
+  protected void writeImplementation(TreeLogger logger, SelectionProperty property, SourceWriter writer) {
     writer.println("public boolean isMidDPI() {");
     writer.println("return " + property.getCurrentValue().equals("mid") + ";");
     writer.println("}");

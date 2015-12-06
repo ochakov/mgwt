@@ -32,7 +32,7 @@ import com.googlecode.mgwt.ui.client.FormFactor;
 public class FormFactorGenerator extends RebindingGenerator {
 
   @Override
-  protected void writeImplementatioon(TreeLogger logger, SelectionProperty property,
+  protected void writeImplementation(TreeLogger logger, SelectionProperty property,
       SourceWriter writer) {
     writer.println("public boolean isPhone() {");
     writer.println("return " + property.getCurrentValue().equals("phone") + ";");

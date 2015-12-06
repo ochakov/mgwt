@@ -17,7 +17,7 @@ package com.googlecode.mgwt.linker.server.propertyprovider;
 
 import javax.servlet.http.HttpServletRequest;
 
-public class PhoneGapPropertyProvider extends PropertyProviderBaseImpl {
+public class LocalePropertyProvider extends PropertyProviderBaseImpl {
 
 	/**
 	 *
@@ -26,25 +26,26 @@ public class PhoneGapPropertyProvider extends PropertyProviderBaseImpl {
 
 	@Override
 	public String getPropertyName() {
-		return "phonegap.env";
+		return "locale";
 	}
 
 	@Override
 	public String getPropertyValue(HttpServletRequest req) throws PropertyProviderException {
-		String userAgent = getUserAgent(req).toLowerCase();
+		return "ru_RU"; // This property is collapsed, return the last value. TODO: might be a problem when changes to something greater
 
-		if (userAgent.contains("iphone") ||
-			userAgent.contains("ipod") ||
-			userAgent.contains("ipad") ||
-			userAgent.contains("android") ||
-			userAgent.contains("blackBerry") ||
-			userAgent.contains("cordova") ||
-			userAgent.contains("edge") ||
-			userAgent.contains("windows phone") ||
-			userAgent.contains("iemobile")) {
-				return "yes";
-			} else {
-				return "no";
+/*		Cookie[] cookies = req == null ? null : req.getCookies();
+		if (cookies != null)
+		{
+			for (Cookie cookie : cookies)
+			{
+				if (cookie != null && cookie.getName().equalsIgnoreCase("Locale"))
+					return cookie.getValue();
 			}
+		}
+		if (req.getParameter("locale") != null)
+			return req.getParameter("locale");
+
+		return "en_US";*/
 	}
+
 }

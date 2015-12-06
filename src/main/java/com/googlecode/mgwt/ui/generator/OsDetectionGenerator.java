@@ -30,7 +30,7 @@ import com.google.gwt.user.rebind.SourceWriter;
 public class OsDetectionGenerator extends RebindingGenerator {
 
   @Override
-  protected void writeImplementatioon(TreeLogger logger, SelectionProperty property,
+  protected void writeImplementation(TreeLogger logger, SelectionProperty property,
       SourceWriter writer) {
     writer.println("public boolean isAndroid() {");
     writer.println("return isAndroidTablet() || isAndroidPhone();");

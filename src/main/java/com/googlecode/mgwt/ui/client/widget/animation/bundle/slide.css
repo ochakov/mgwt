@@ -2,6 +2,9 @@
   -webkit-animation-timing-function: ease-in-out;
   -webkit-animation-duration: 300ms;
   -webkit-animation-fill-mode: both;
+  animation-timing-function: ease-in-out;
+  animation-duration: 300ms;
+  animation-fill-mode: both;
 }
 
 .in {
@@ -14,18 +17,22 @@
 
 .in {
   -webkit-animation-name: slideinfromright;
+  animation-name: slideinfromright;
 }
 
 .out {
   -webkit-animation-name: slideouttoleft;
+  animation-name: slideouttoleft;
 }
 
 .in.reverse {
   -webkit-animation-name: slideinfromleft;
+  animation-name: slideinfromleft;
 }
 
 .out.reverse {
   -webkit-animation-name: slideouttoright;
+  animation-name: slideouttoright;
 }
 
 @-webkit-keyframes slideinfromright {
@@ -46,4 +53,24 @@
 @-webkit-keyframes slideouttoright {
   from { -webkit-transform: translateX(0); }
   to { -webkit-transform: translateX(100%); }
+}
+
+@-webkit-keyframes slideinfromright {
+  from { -webkit-transform: translateX(100%); }
+  to { -webkit-transform: translateX(0); }
+}
+
+@keyframes slideinfromleft {
+  from { transform: translateX(-100%); }
+  to { transform: translateX(0); }
+}
+
+@keyframes slideouttoleft {
+  from { transform: translateX(0); }
+  to { transform: translateX(-100%); }
+}
+
+@keyframes slideouttoright {
+  from { transform: translateX(0); }
+  to { transform: translateX(100%); }
 }

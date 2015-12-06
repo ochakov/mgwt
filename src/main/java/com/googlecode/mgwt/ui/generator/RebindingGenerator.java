@@ -71,13 +71,13 @@ public abstract class RebindingGenerator extends Generator {
 
 	  // start writing the implementation
     SourceWriter writer = writeHolder.composer.createSourceWriter(context, writeHolder.printWriter);
-		writeImplementatioon(logger, property, writer);
+		writeImplementation(logger, property, writer);
 		return writeHolder.fullName;
 	}
 
   protected abstract String getSelectionPropertyName();
 
-  protected abstract void writeImplementatioon(TreeLogger logger, SelectionProperty property, SourceWriter writer);
+  protected abstract void writeImplementation(TreeLogger logger, SelectionProperty property, SourceWriter writer);
 
   private JClassType getClassType(TreeLogger logger, GeneratorContext context, String typeName)
       throws UnableToCompleteException {

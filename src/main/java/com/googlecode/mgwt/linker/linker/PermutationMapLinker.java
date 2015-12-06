@@ -64,7 +64,7 @@ public class PermutationMapLinker extends AbstractLinker {
       Set<BindingProperty> bindingProperties = next.getValue();
 
       // all artifacts for this compilation
-      Set<String> artifactsForCompilation = getArtifactsForCompilation(logger, context, artifacts);
+      Set<String> artifactsForCompilation = getArtifactsForCompilation(logger, context, null, artifacts);
 
       ArtifactSet toReturn = new ArtifactSet(artifacts);
       PermutationArtifact permutationArtifact = new PermutationArtifact(PermutationMapLinker.class, strongName, artifactsForCompilation, bindingProperties);
@@ -86,11 +86,12 @@ public class PermutationMapLinker extends AbstractLinker {
 
     Set<String> allPermutationFiles = getAllPermutationFiles(permutationArtifactAsMap);
 
-    // get all artifacts
-    Set<String> allArtifacts = getArtifactsForCompilation(logger, context, artifacts);
-
     for (Entry<String, PermutationArtifact> entry : permutationArtifactAsMap.entrySet()) {
       PermutationArtifact permutationArtifact = entry.getValue();
+
+      // get all artifacts
+      Set<String> allArtifacts = getArtifactsForCompilation(logger, context, permutationArtifact, artifacts);
+
       // make a copy of all artifacts
       HashSet<String> filesForCurrentPermutation = new HashSet<String>(allArtifacts);
       // remove all permutations
@@ -150,23 +151,35 @@ public class PermutationMapLinker extends AbstractLinker {
     return hashMap;
   }
 
-  protected boolean shouldArtifactBeInManifest(String pathName) {
+  protected boolean shouldArtifactBeInManifest(TreeLogger logger, LinkerContext context, PermutationArtifact permutationArtifact, String pathName) {
     if (pathName.endsWith("symbolMap") || pathName.endsWith(".xml.gz") || pathName.endsWith("rpc.log") || pathName.endsWith("gwt.rpc") || pathName.endsWith("manifest.txt")
         || pathName.startsWith("rpcPolicyManifest") || pathName.startsWith("soycReport") || pathName.endsWith(".cssmap")) {
       return false;
     }
+
+	if (permutationArtifact != null)
+	{
+	    for (BindingProperty property : permutationArtifact.getBindingProperties())
+	    {
+	    	if (pathName.startsWith(property.getName()))
+	    	{
+	   			if (!pathName.contains(property.getValue()))
+	    			return false;
+	    	}
+	    }
+	}
 
     // TODO reg exp
 
     return true;
   }
 
-  protected Set<String> getArtifactsForCompilation(TreeLogger logger, LinkerContext context, ArtifactSet artifacts) {
+  protected Set<String> getArtifactsForCompilation(TreeLogger logger, LinkerContext context, PermutationArtifact permutationArtifact, ArtifactSet artifacts) {
     Set<String> artifactNames = new HashSet<String>();
     for (EmittedArtifact artifact : artifacts.find(EmittedArtifact.class)) {
       String pathName = artifact.getPartialPath();
 
-      if (shouldArtifactBeInManifest(pathName)) {
+      if (shouldArtifactBeInManifest(logger, context, permutationArtifact, pathName)) {
         artifactNames.add(context.getModuleName() + "/" + pathName);
       }
     }

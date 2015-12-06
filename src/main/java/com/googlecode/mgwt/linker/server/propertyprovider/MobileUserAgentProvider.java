@@ -5,7 +5,7 @@ import javax.servlet.http.HttpServletRequest;
 public class MobileUserAgentProvider extends PropertyProviderBaseImpl {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = -7478122098836802106L;
 
@@ -25,6 +25,9 @@ public class MobileUserAgentProvider extends PropertyProviderBaseImpl {
 			return "mobilesafari";
 		}
 		if (ua.contains("ipad")) {
+			return "mobilesafari";
+		}
+		if (ua.contains("ipod")) {
 			return "mobilesafari";
 		}
 		if (ua.contains("blackberry")) {

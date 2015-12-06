@@ -18,7 +18,7 @@
 .mgwt-Carousel {
   position: relative;
   flex:1;
-  flex-flow: column;
+  flex-direction: column;
   overflow: visible;
 }
 

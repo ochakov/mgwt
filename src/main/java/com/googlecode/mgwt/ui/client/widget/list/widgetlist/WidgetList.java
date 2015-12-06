@@ -13,6 +13,12 @@
  */
 package com.googlecode.mgwt.ui.client.widget.list.widgetlist;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
 import com.google.gwt.core.shared.GWT;
 import com.google.gwt.event.logical.shared.HasSelectionHandlers;
 import com.google.gwt.event.logical.shared.SelectionEvent;
@@ -33,12 +39,6 @@ import com.googlecode.mgwt.dom.client.event.tap.TapHandler;
 import com.googlecode.mgwt.dom.client.recognizer.TapRecognizer;
 import com.googlecode.mgwt.ui.client.widget.list.celllist.CellList;
 import com.googlecode.mgwt.ui.client.widget.touch.TouchWidgetImpl;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
 
 /**
  * A list that can contain widgets
@@ -191,7 +191,7 @@ public class WidgetList extends Composite implements HasWidgets, HasSelectionHan
       }
     }
     childCount--;
-    children.remove(entry);
+    children.remove(w);
     entry.handlerRegistration.removeHandler();
     return container.remove(entry.entry);
   }

@@ -1,9 +1,9 @@
 package com.googlecode.mgwt.ui.client.widget.animation.bundle;
 
 import com.google.gwt.core.shared.GWT;
+import com.google.gwt.i18n.client.LocaleInfo;
 import com.google.gwt.resources.client.ClientBundle;
 import com.google.gwt.resources.client.CssResource;
-
 import com.googlecode.mgwt.ui.client.widget.animation.Animation;
 
 public class FlipAnimation extends AnimationBase {
@@ -31,7 +31,7 @@ public class FlipAnimation extends AnimationBase {
   }
 
   public FlipAnimation(boolean reversed) {
-    super("mgwt-flip", reversed);
+    super("mgwt-flip", LocaleInfo.getCurrentLocale().isRTL() ? !reversed : reversed);
   }
 
   @Override

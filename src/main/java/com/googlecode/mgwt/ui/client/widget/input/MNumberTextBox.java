@@ -24,7 +24,7 @@ package com.googlecode.mgwt.ui.client.widget.input;
 public class MNumberTextBox extends MTextBox {
 
   public MNumberTextBox() {
-    this(InputApperanceHolder.DEFAULT_APPERAERANCE);
+    this(InputAppearanceHolder.DEFAULT_APPEARANCE);
   }
 
   public MNumberTextBox(InputAppearance appearance) {

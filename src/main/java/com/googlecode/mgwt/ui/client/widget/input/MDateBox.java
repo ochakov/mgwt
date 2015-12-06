@@ -154,7 +154,7 @@ public class MDateBox extends MValueBoxBase<Date> {
   private DateTimeFormat format;
 
   public MDateBox() {
-    this(InputApperanceHolder.DEFAULT_APPERAERANCE);
+    this(InputAppearanceHolder.DEFAULT_APPEARANCE);
   }
 
   public MDateBox(InputAppearance appearance) {

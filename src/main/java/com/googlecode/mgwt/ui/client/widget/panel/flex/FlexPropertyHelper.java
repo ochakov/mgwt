@@ -38,7 +38,7 @@ public final class FlexPropertyHelper {
   }
 
   public static enum Justification {
-    START("flex-start"), END("flex-end"), CENTER("center"), SPACE_BETWEEN("space-between");
+    START("flex-start"), END("flex-end"), CENTER("center"), SPACE_BETWEEN("space-between"), SPACE_AROUND("space-around");
 
     private final String cssValue;
 
@@ -84,13 +84,13 @@ public final class FlexPropertyHelper {
 
   private static void setFlexProperty(Element el, String name, String value) {
     setStyleProperty(el, "MozFlex" + name, value);
-    setStyleProperty(el, "webkitFlex" + name, value);
+    setStyleProperty(el, "WebkitFlex" + name, value);
     setStyleProperty(el, "flex" + name, value);
   }
 
   private static void setProperty(Element el, String name, String value) {
     setStyleProperty(el, "Moz" + name, value);
-    setStyleProperty(el, "webkit" + name, value);
+    setStyleProperty(el, "Webkit" + name, value);
     setStyleProperty(el, name, value);
   }
 
@@ -148,6 +148,9 @@ public final class FlexPropertyHelper {
       case SPACE_BETWEEN:
         el.getStyle().setProperty("WebkitBoxPack", "justify");
         break;
+      case SPACE_AROUND:
+          el.getStyle().setProperty("WebkitBoxPack", "justify");
+          break;
       default:
         throw new RuntimeException();
     }

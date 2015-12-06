@@ -23,6 +23,7 @@ public class GroupingCellListDefaultAppearance extends GroupingCellListAbstractA
 
   static {
     Resources.INSTANCE.css().ensureInjected();
+    Resources.INSTANCE.groupCss().ensureInjected();
   }
 
   interface Resources extends ClientBundle {

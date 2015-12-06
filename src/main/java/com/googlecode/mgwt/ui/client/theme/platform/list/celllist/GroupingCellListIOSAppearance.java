@@ -3,13 +3,13 @@ package com.googlecode.mgwt.ui.client.theme.platform.list.celllist;
 import com.google.gwt.core.shared.GWT;
 import com.google.gwt.resources.client.ClientBundle;
 import com.google.gwt.resources.client.DataResource;
-
 import com.googlecode.mgwt.ui.client.widget.list.celllist.GroupingCellListAbstractAppearance;
 
 public class GroupingCellListIOSAppearance extends GroupingCellListAbstractAppearance {
 
   static {
     Resources.INSTANCE.css().ensureInjected();
+    Resources.INSTANCE.groupCss().ensureInjected();
   }
 
   interface Css extends CellListCss {}

@@ -21,7 +21,7 @@
 .mgwt-TabPanel {
   display: flex;
   flex: 1;
-  flex-flow: column;
+  flex-direction: column;
 }
 
 @if user.agent safari {

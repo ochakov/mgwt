@@ -1,5 +1,8 @@
 package com.googlecode.mgwt.ui.client.widget.panel.scroll.impl;
 
+import java.util.Iterator;
+import java.util.logging.Logger;
+
 import com.google.gwt.animation.client.AnimationScheduler;
 import com.google.gwt.animation.client.AnimationScheduler.AnimationCallback;
 import com.google.gwt.animation.client.AnimationScheduler.AnimationHandle;
@@ -32,7 +35,6 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
-
 import com.googlecode.mgwt.collection.shared.CollectionFactory;
 import com.googlecode.mgwt.collection.shared.LightArray;
 import com.googlecode.mgwt.collection.shared.LightArrayInt;
@@ -56,9 +58,6 @@ import com.googlecode.mgwt.ui.client.widget.panel.scroll.ScrollPanelAppearance.S
 import com.googlecode.mgwt.ui.client.widget.panel.scroll.ScrollRefreshEvent;
 import com.googlecode.mgwt.ui.client.widget.panel.scroll.ScrollStartEvent;
 import com.googlecode.mgwt.ui.client.widget.touch.TouchDelegate;
-
-import java.util.Iterator;
-import java.util.logging.Logger;
 
 public class ScrollPanelTouchImpl extends ScrollPanelImpl {
 
@@ -202,12 +201,12 @@ public class ScrollPanelTouchImpl extends ScrollPanelImpl {
   private LightArrayInt pagesX;
   private LightArrayInt pagesY;
 
-  private SimplePanel wrapper;
+  private final SimplePanel wrapper;
   private Widget scroller;
   private double scale;
 
-  private double zoomMin;
-  private double zoomMax;
+  private final double zoomMin;
+  private final double zoomMax;
   private int wrapperHeight;
   private int wrapperWidth;
 
@@ -225,7 +224,7 @@ public class ScrollPanelTouchImpl extends ScrollPanelImpl {
   private boolean hScroll;
   // enable disable vertical scroll
   private boolean vScroll;
-  private boolean bounceLock;
+  private final boolean bounceLock;
   private boolean hScrollbar;
   private boolean vScrollbar;
   private int wrapperOffsetLeft;
@@ -265,16 +264,16 @@ public class ScrollPanelTouchImpl extends ScrollPanelImpl {
   private int currPageX;
   private int currPageY;
   private String snapSelector;
-  private TouchListener touchListener;
+  private final TouchListener touchListener;
   private HandlerRegistration transistionEndRegistration;
 
   private boolean fixedScrollbar;
 
   private boolean hideScrollBar;
 
-  private boolean fadeScrollBar;
+  private final boolean fadeScrollBar;
 
-  private ScrollPanelCss css;
+  private final ScrollPanelCss css;
 
   private boolean shouldHandleResize;
 
@@ -374,14 +373,14 @@ public class ScrollPanelTouchImpl extends ScrollPanelImpl {
     HORIZONTAL, VERTICAL
   };
 
-  private boolean[] scrollBar;
-  private Element[] scrollBarWrapper;
-  private Element[] scrollBarIndicator;
+  private final boolean[] scrollBar;
+  private final Element[] scrollBarWrapper;
+  private final Element[] scrollBarIndicator;
 
-  private int[] scrollBarSize;
-  private int[] scrollbarIndicatorSize;
-  private int[] scrollbarMaxScroll;
-  private double[] scrollbarProp;
+  private final int[] scrollBarSize;
+  private final int[] scrollbarIndicatorSize;
+  private final int[] scrollbarMaxScroll;
+  private final double[] scrollbarProp;
 
   private boolean hScrollDesired;
 
@@ -464,7 +463,7 @@ public class ScrollPanelTouchImpl extends ScrollPanelImpl {
       }
     }
 
-    int delay = MGWT.getOsDetection().isAndroid() ? 200 : 1;
+    int delay = MGWT.getOsDetection().isAndroid() ? 400 : 1;
     new Timer() {
       @Override
       public void run() {
@@ -501,7 +500,7 @@ public class ScrollPanelTouchImpl extends ScrollPanelImpl {
   }
 
   private void resize() {
-    int delay = MGWT.getOsDetection().isAndroid() ? 200 : 1;
+    int delay = MGWT.getOsDetection().isAndroid() ? 400 : 1;
     new Timer() {
       @Override
       public void run() {
@@ -515,13 +514,16 @@ public class ScrollPanelTouchImpl extends ScrollPanelImpl {
     x = this.hScroll ? x : 0;
     y = this.vScroll ? y : 0;
 
-    if (useTransform) {
-      CssUtil.translate(scroller.getElement(), x, y);
-    } else {
-      // TODO
-      scroller.getElement().getStyle().setLeft(x, Unit.PX);
-      scroller.getElement().getStyle().setTop(y, Unit.PX);
+    if (scroller != null)
+    {
+	    if (useTransform) {
+	      CssUtil.translate(scroller.getElement(), x, y);
+	    } else {
+	      // TODO
+	      scroller.getElement().getStyle().setLeft(x, Unit.PX);
+	      scroller.getElement().getStyle().setTop(y, Unit.PX);
 
+	    }
     }
 
     this.x = x;
@@ -578,15 +580,15 @@ public class ScrollPanelTouchImpl extends ScrollPanelImpl {
       }
     }
 
-    CssUtil.setTransitionsDelay(this.scrollBarWrapper[dir], 0);
-    CssUtil.setOpacity(this.scrollBarWrapper[dir], hidden && this.hideScrollBar ? 0 : 1);
-    if (direction == DIRECTION.HORIZONTAL) {
-      CssUtil.translate(this.scrollBarIndicator[dir], (int) pos, 0);
-    } else {
-      CssUtil.translate(this.scrollBarIndicator[dir], 0, (int) pos);
-
+    if (this.scrollBarWrapper[dir] != null) {
+	    CssUtil.setTransitionsDelay(this.scrollBarWrapper[dir], 0);
+	    CssUtil.setOpacity(this.scrollBarWrapper[dir], hidden && this.hideScrollBar ? 0 : 1);
+	    if (direction == DIRECTION.HORIZONTAL) {
+	      CssUtil.translate(this.scrollBarIndicator[dir], (int) pos, 0);
+	    } else {
+	      CssUtil.translate(this.scrollBarIndicator[dir], 0, (int) pos);
+	    }
     }
-
   }
 
   private void start(TouchStartEvent event) {
@@ -1259,8 +1261,8 @@ public class ScrollPanelTouchImpl extends ScrollPanelImpl {
 
     minScrollY = -topOffset;
 
-    scrollerWidth = (int) Math.round((scroller.getOffsetWidth() + getMarginWidth(scroller.getElement())) * scale);
-    scrollerHeight = (int) Math.round((scroller.getOffsetHeight() + minScrollY + +getMarginHeight(scroller.getElement())) * scale);
+    scrollerWidth = scroller == null ? 0 : (int) Math.round((scroller.getOffsetWidth() + getMarginWidth(scroller.getElement())) * scale);
+    scrollerHeight = scroller == null ? 0 : (int) Math.round((scroller.getOffsetHeight() + minScrollY + +getMarginHeight(scroller.getElement())) * scale);
 
     maxScrollX = wrapperWidth - scrollerWidth;
 
@@ -1288,17 +1290,20 @@ public class ScrollPanelTouchImpl extends ScrollPanelImpl {
       ScrollPanelTouchImpl.this.pagesActualX = CollectionFactory.constructIntegerArray();
       ScrollPanelTouchImpl.this.pagesActualY = CollectionFactory.constructIntegerArray();
 
-      JsArray<com.google.gwt.dom.client.Element> elements = querySelectorAll(ScrollPanelTouchImpl.this.scroller.getElement(), snapSelector);
+      if (scroller != null)
+      {
+    	  JsArray<com.google.gwt.dom.client.Element> elements = querySelectorAll(ScrollPanelTouchImpl.this.scroller.getElement(), snapSelector);
 
-      for (int i = 0; i < elements.length(); i++) {
-        int[] pos = offSet(elements.get(i));
-        int left = pos[0] + ScrollPanelTouchImpl.this.wrapperOffsetLeft;
-        int top = pos[1] + ScrollPanelTouchImpl.this.wrapperOffsetTop;
-        ScrollPanelTouchImpl.this.pagesX.push((int) (left < ScrollPanelTouchImpl.this.maxScrollX ? ScrollPanelTouchImpl.this.maxScrollX : left * ScrollPanelTouchImpl.this.scale));
-        ScrollPanelTouchImpl.this.pagesY.push((int) (top < ScrollPanelTouchImpl.this.maxScrollY ? ScrollPanelTouchImpl.this.maxScrollY : top * ScrollPanelTouchImpl.this.scale));
+	      for (int i = 0; i < elements.length(); i++) {
+	        int[] pos = offSet(elements.get(i));
+	        int left = pos[0] + ScrollPanelTouchImpl.this.wrapperOffsetLeft;
+	        int top = pos[1] + ScrollPanelTouchImpl.this.wrapperOffsetTop;
+	        ScrollPanelTouchImpl.this.pagesX.push((int) (left < ScrollPanelTouchImpl.this.maxScrollX ? ScrollPanelTouchImpl.this.maxScrollX : left * ScrollPanelTouchImpl.this.scale));
+	        ScrollPanelTouchImpl.this.pagesY.push((int) (top < ScrollPanelTouchImpl.this.maxScrollY ? ScrollPanelTouchImpl.this.maxScrollY : top * ScrollPanelTouchImpl.this.scale));
 
-        ScrollPanelTouchImpl.this.pagesActualX.push((int) (left * ScrollPanelTouchImpl.this.scale));
-        ScrollPanelTouchImpl.this.pagesActualY.push((int) (top * ScrollPanelTouchImpl.this.scale));
+	        ScrollPanelTouchImpl.this.pagesActualX.push((int) (left * ScrollPanelTouchImpl.this.scale));
+	        ScrollPanelTouchImpl.this.pagesActualY.push((int) (top * ScrollPanelTouchImpl.this.scale));
+	      }
       }
     } else {
       if (ScrollPanelTouchImpl.this.snap) {
@@ -1335,7 +1340,7 @@ public class ScrollPanelTouchImpl extends ScrollPanelImpl {
     scrollBar(DIRECTION.HORIZONTAL);
     scrollBar(DIRECTION.VERTICAL);
 
-    if (!ScrollPanelTouchImpl.this.zoomed) {
+    if (!ScrollPanelTouchImpl.this.zoomed && ScrollPanelTouchImpl.this.scroller != null) {
       CssUtil.setTransitionDuration(ScrollPanelTouchImpl.this.scroller.getElement(), 0);
       resetPos(200);
     }
@@ -1353,7 +1358,8 @@ public class ScrollPanelTouchImpl extends ScrollPanelImpl {
 
   }
 
-  public void scrollTo(int x, int y, int time, boolean relative) {
+  @Override
+public void scrollTo(int x, int y, int time, boolean relative) {
     scrollTo(x, y, time, relative, true);
   }
 
@@ -1395,7 +1401,8 @@ public class ScrollPanelTouchImpl extends ScrollPanelImpl {
     scrollToPage(pageX, pageY, 400);
   }
 
-  public void scrollToPage(int pageX, int pageY, int time) {
+  @Override
+public void scrollToPage(int pageX, int pageY, int time) {
     scrollToPage(pageX, pageY, time, true);
   }
 
@@ -1574,7 +1581,7 @@ public class ScrollPanelTouchImpl extends ScrollPanelImpl {
 
   private HandlerRegistration touchStartRegistration;
   private HandlerRegistration orientationChangeRegistration;
-  private TouchDelegate touchDelegate;
+  private final TouchDelegate touchDelegate;
   private HandlerRegistration mouseOutRegistration;
   private HandlerRegistration mouseWheelRegistration;
   private HandlerRegistration touchCancelRegistration;
@@ -1591,7 +1598,8 @@ public class ScrollPanelTouchImpl extends ScrollPanelImpl {
 
   private int offsetMaxY;
 
-  public void setWidget(Widget w) {
+  @Override
+public void setWidget(Widget w) {
 
     // clear old event handlers
     unbindStartEvent();
@@ -1659,8 +1667,9 @@ public class ScrollPanelTouchImpl extends ScrollPanelImpl {
 
         @Override
         public void execute() {
-          refresh();
-
+          if (scroller != null) {
+             refresh();
+          }
         }
       });
 
@@ -1996,7 +2005,8 @@ public class ScrollPanelTouchImpl extends ScrollPanelImpl {
     return this.pagesActualX;
   }
 
-  public void setHideScrollBar(boolean hideScrollBar) {
+  @Override
+public void setHideScrollBar(boolean hideScrollBar) {
     this.hideScrollBar = hideScrollBar;
   }
 

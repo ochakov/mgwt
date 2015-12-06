@@ -33,7 +33,6 @@ import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.RootPanel;
-
 import com.googlecode.mgwt.dom.client.event.orientation.OrientationChangeEvent;
 import com.googlecode.mgwt.dom.client.event.orientation.OrientationChangeEvent.ORIENTATION;
 import com.googlecode.mgwt.dom.client.event.orientation.OrientationChangeHandler;
@@ -67,7 +66,7 @@ public class MGWT {
 
   private static EventBus manager;
 
-  private static Timer timer;
+  private static Timer timer = null;
 
 
 
@@ -210,13 +209,12 @@ public class MGWT {
    * fixIOSScrollIssueBlur
    * </p>
    */
-  public static void fixIOSScrollIssueBlur() {
+  public static synchronized void fixIOSScrollIssueBlur() {
     if (!scrollingDisabled) {
       return;
     }
     if (timer != null) {
       timer.cancel();
-
     }
 
     timer = new Timer() {

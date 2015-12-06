@@ -37,7 +37,6 @@ public class PullPanelDefaultAppearance extends PullPanelAbstractAppearance {
 
     @Source("error.png")
     ImageResource errorImage();
-
   }
 
   @Override

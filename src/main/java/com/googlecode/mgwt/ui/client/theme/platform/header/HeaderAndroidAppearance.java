@@ -9,6 +9,7 @@ public class HeaderAndroidAppearance extends HeaderAbstractAppearance {
 
   static {
     Resources.INSTANCE.cssPanel().ensureInjected();
+    Resources.INSTANCE.cssTitle().ensureInjected();
   }
 
   interface CssPanel extends HeaderPanelCss {}

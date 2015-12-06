@@ -254,7 +254,6 @@ public class MValueBoxBase<T> extends Composite implements AutoDirectionHandler.
     box.setSelectionRange(pos, length);
   }
 
-  @Override
   public void setText(String text) {
     box.setText(text);
   }

@@ -15,6 +15,9 @@
  */
 package com.googlecode.mgwt.ui.client.widget.tabbar;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.google.gwt.core.shared.GWT;
 import com.google.gwt.event.logical.shared.HasSelectionHandlers;
 import com.google.gwt.event.logical.shared.SelectionEvent;
@@ -25,16 +28,13 @@ import com.google.gwt.uibinder.client.UiFactory;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.RequiresResize;
 import com.google.gwt.user.client.ui.Widget;
-
 import com.googlecode.mgwt.dom.client.event.tap.TapEvent;
 import com.googlecode.mgwt.dom.client.event.tap.TapHandler;
 import com.googlecode.mgwt.ui.client.util.HandlerRegistrationConverter;
 import com.googlecode.mgwt.ui.client.widget.carousel.Carousel;
 import com.googlecode.mgwt.ui.client.widget.panel.flex.FlexPanel;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  *
@@ -61,7 +61,7 @@ import java.util.List;
  *
  * @author Daniel Kurka
  */
-public class TabPanel extends Composite implements HasSelectionHandlers<Integer> {
+public class TabPanel extends Composite implements HasSelectionHandlers<Integer>, RequiresResize {
 
   public static class TabBar extends Composite implements HasSelectionHandlers<Integer> {
 
@@ -81,8 +81,9 @@ public class TabPanel extends Composite implements HasSelectionHandlers<Integer>
 
     @UiField
     public FlowPanel container;
-    private List<TabBarButtonBase> children = new ArrayList<TabBarButtonBase>();;
-    private List<HandlerRegistration> handlers = new ArrayList<HandlerRegistration>();
+    private final List<TabBarButtonBase> children = new ArrayList<TabBarButtonBase>();;
+    private final List<HandlerRegistration> handlers = new ArrayList<HandlerRegistration>();
+    private int selectedTab = -1;
 
     public TabBar() {
       this(DEFAULT_APPEARANCE);
@@ -131,6 +132,7 @@ public class TabPanel extends Composite implements HasSelectionHandlers<Integer>
         throw new IllegalArgumentException("invalid index");
       }
 
+      selectedTab = index;
       int count = 0;
       for (TabBarButtonBase button : children) {
         if (count == index) {
@@ -143,6 +145,10 @@ public class TabPanel extends Composite implements HasSelectionHandlers<Integer>
       if (issueEvent) {
         SelectionEvent.fire(this, Integer.valueOf(index));
       }
+    }
+
+    public int getSelectedTab() {
+    	return selectedTab;
     }
 
     @Override
@@ -188,14 +194,20 @@ public class TabPanel extends Composite implements HasSelectionHandlers<Integer>
     tabBar.addSelectionHandler(new SelectionHandler<Integer>() {
       @Override
       public void onSelection(SelectionEvent<Integer> event) {
-        tabContainer.setSelectedPage(event.getSelectedItem(), false);
+    	  if (tabContainer.getSelectedPage() != event.getSelectedItem())
+    	  {
+    		  tabContainer.setSelectedPage(event.getSelectedItem(), true);
+    	  }
       }
     });
 
     tabContainer.addSelectionHandler(new SelectionHandler<Integer>() {
       @Override
       public void onSelection(SelectionEvent<Integer> event) {
-        tabBar.setSelectedButton(event.getSelectedItem(), false);
+    	  if (tabBar.getSelectedTab() != event.getSelectedItem())
+    	  {
+    		  tabBar.setSelectedButton(event.getSelectedItem(), true);
+    	  }
       }
     });
   }
@@ -244,4 +256,11 @@ public class TabPanel extends Composite implements HasSelectionHandlers<Integer>
   public TabBarAppearance getAppearance() {
 	  return appearance;
   }
+
+  @Override
+  public void onResize()
+  {
+	  tabContainer.onResize();
+  }
+
 }

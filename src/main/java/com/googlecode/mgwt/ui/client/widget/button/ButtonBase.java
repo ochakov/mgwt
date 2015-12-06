@@ -19,7 +19,6 @@ import com.google.gwt.event.dom.client.TouchMoveEvent;
 import com.google.gwt.event.dom.client.TouchStartEvent;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.HasText;
-
 import com.googlecode.mgwt.dom.client.event.tap.TapEvent;
 import com.googlecode.mgwt.dom.client.event.tap.TapHandler;
 import com.googlecode.mgwt.dom.client.event.touch.TouchHandler;
@@ -32,6 +31,7 @@ import com.googlecode.mgwt.ui.client.widget.touch.TouchWidget;
 public abstract class ButtonBase extends TouchWidget implements HasText {
 
   private boolean active;
+  protected boolean preventTouch = true;
 
   private final ButtonBaseAppearance baseAppearance;
 
@@ -48,8 +48,10 @@ public abstract class ButtonBase extends TouchWidget implements HasText {
 
       @Override
       public void onTouchCancel(TouchCancelEvent event) {
-        event.stopPropagation();
-        event.preventDefault();
+       	if (!preventTouch) {
+          event.stopPropagation();
+    	  event.preventDefault();
+       	}
         removeStyleName(ButtonBase.this.baseAppearance.css().active());
         if (MGWT.getFormFactor().isDesktop()) {
           DOM.releaseCapture(getElement());
@@ -59,8 +61,10 @@ public abstract class ButtonBase extends TouchWidget implements HasText {
 
       @Override
       public void onTouchEnd(TouchEndEvent event) {
-        event.stopPropagation();
-        event.preventDefault();
+       	if (!preventTouch) {
+      	  event.stopPropagation();
+      	  event.preventDefault();
+       	}
         removeStyleName(ButtonBase.this.baseAppearance.css().active());
         if (MGWT.getFormFactor().isDesktop()) {
           DOM.releaseCapture(getElement());
@@ -70,14 +74,18 @@ public abstract class ButtonBase extends TouchWidget implements HasText {
 
       @Override
       public void onTouchMove(TouchMoveEvent event) {
-        event.preventDefault();
-        event.stopPropagation();
+      	if (!preventTouch) {
+      		event.preventDefault();
+      		event.stopPropagation();
+      	}
       }
 
       @Override
       public void onTouchStart(TouchStartEvent event) {
-        event.stopPropagation();
-        event.preventDefault();
+       	if (!preventTouch) {
+     	  event.stopPropagation();
+      	  event.preventDefault();
+       	}
         addStyleName(ButtonBase.this.baseAppearance.css().active());
         if (MGWT.getFormFactor().isDesktop()) {
           DOM.setCapture(getElement());
@@ -107,5 +115,13 @@ public abstract class ButtonBase extends TouchWidget implements HasText {
 
   public boolean isActive() {
     return active;
+  }
+
+  public boolean isPreventTouch() {
+	return preventTouch;
+  }
+
+  public void setPreventTouch(boolean preventTouch) {
+	this.preventTouch = preventTouch;
   }
 }

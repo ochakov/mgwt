@@ -21,7 +21,7 @@ package com.googlecode.mgwt.ui.client.widget.input;
  */
 public class MUrlTextBox extends MTextBox {
 	public MUrlTextBox() {
-		this(InputApperanceHolder.DEFAULT_APPERAERANCE);
+		this(InputAppearanceHolder.DEFAULT_APPEARANCE);
 	}
 
 	public MUrlTextBox(InputAppearance appearance) {

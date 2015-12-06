@@ -7,7 +7,7 @@
     display: -webkit-box; /* iOS < 7 && Android < 4.4*/
     display: -webkit-flex;
     -webkit-box-orient: vertical; /* iOS < 7 && Android < 4.4*/
-    -webkit-flex-flow: column;
+    -webkit-flex-direction: column;
   }
 }
 
@@ -19,7 +19,7 @@
 
 .mgwt-FlexPanel {
   display: flex;
-  flex-flow: column;
+  flex-direction: column;
 }
 
 .mgwt-RootFlexPanel {

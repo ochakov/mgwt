@@ -27,11 +27,11 @@ import com.google.gwt.event.dom.client.TouchMoveEvent;
 import com.google.gwt.event.dom.client.TouchStartEvent;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
+import com.google.gwt.i18n.client.LocaleInfo;
 import com.google.gwt.uibinder.client.UiFactory;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.HasValue;
-
 import com.googlecode.mgwt.dom.client.event.touch.TouchHandler;
 import com.googlecode.mgwt.ui.client.MGWT;
 import com.googlecode.mgwt.ui.client.util.CssUtil;
@@ -133,8 +133,14 @@ public class MCheckBox extends TouchWidget implements HasValue<Boolean>, IsEdito
 				offset = appearance.css().CONTAINER_OFFSET_ON();
 			} else {
 			  x_min = appearance.css().CONTAINER_MIN_OFF();
-        x_max = appearance.css().CONTAINER_MAX_OFF();
-        offset = appearance.css().CONTAINER_OFFSET_OFF();
+			  x_max = appearance.css().CONTAINER_MAX_OFF();
+			  offset = appearance.css().CONTAINER_OFFSET_OFF();
+			}
+			if (LocaleInfo.getCurrentLocale().isRTL())
+			{
+				x_min *= -1;
+				x_max *= -1;
+				offset *= -1;
 			}
 		}
 	}

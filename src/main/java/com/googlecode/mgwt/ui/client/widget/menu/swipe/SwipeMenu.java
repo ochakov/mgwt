@@ -76,8 +76,6 @@ public class SwipeMenu extends Composite implements HasOpenHandlers<SwipeMenu>,
 
   private int startX;
 
-  int position = Integer.MAX_VALUE;
-
   private TouchDelegate touchContainer;
 
   public SwipeMenu() {
@@ -214,8 +212,7 @@ public class SwipeMenu extends Composite implements HasOpenHandlers<SwipeMenu>,
     }
 
     CssUtil.translate(wrap.getElement(), position, 0);
-      
-    this.position = position;
+
   }
 
   @Override
@@ -245,9 +242,6 @@ public class SwipeMenu extends Composite implements HasOpenHandlers<SwipeMenu>,
     wrap.removeStyleName(appearance.css().closed());
     wrap.addStyleName(appearance.css().opened());
     CssUtil.resetTransForm(wrap.getElement());
-    if (position == 0) {
-       handleTransitionEnd();
-    }
   }
 
   private void openMenuWithAnimation(int time) {

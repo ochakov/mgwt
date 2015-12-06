@@ -17,7 +17,6 @@ package com.googlecode.mgwt.ui.client.util;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Element;
-
 import com.googlecode.mgwt.ui.client.util.impl.CssUtilImpl;
 
 /**
@@ -30,27 +29,33 @@ public class CssUtil {
 	private static final CssUtilImpl cssUtilImpl = GWT.create(CssUtilImpl.class);
 
 	public static void translate(Element el, int x, int y) {
-		cssUtilImpl.translate(el, x, y);
+		if (el != null)
+			cssUtilImpl.translate(el, x, y);
 	}
 
-  public static void translatePercent(Element el, double x, double y) {
-    cssUtilImpl.translatePercent(el, x, y);
-  }
+	public static void translatePercent(Element el, double x, double y) {
+		if (el != null)
+			cssUtilImpl.translatePercent(el, x, y);
+	}
 
 	public static void setTransitionsDelay(Element el, int milliseconds) {
-		cssUtilImpl.setDelay(el, milliseconds);
+		if (el != null)
+			cssUtilImpl.setDelay(el, milliseconds);
 	}
 
 	public static void setOpacity(Element el, double opacity) {
-		cssUtilImpl.setOpacity(el, opacity);
+		if (el != null)
+			cssUtilImpl.setOpacity(el, opacity);
 	}
 
 	public static void setTransitionDuration(Element el, int time) {
-		cssUtilImpl.setDuration(el, time);
+		if (el != null)
+			cssUtilImpl.setDuration(el, time);
 	}
 
-	public static void rotate(Element element, int degree) {
-		cssUtilImpl.rotate(element, degree);
+	public static void rotate(Element el, int degree) {
+		if (el != null)
+			cssUtilImpl.rotate(el, degree);
 
 	}
 

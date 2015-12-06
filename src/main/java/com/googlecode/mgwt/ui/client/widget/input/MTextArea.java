@@ -45,7 +45,7 @@ public class MTextArea extends MTextBoxBase {
   }
 
   public MTextArea() {
-    this(InputApperanceHolder.DEFAULT_APPERAERANCE);
+    this(InputAppearanceHolder.DEFAULT_APPEARANCE);
   }
 
   public MTextArea(InputAppearance appearance) {

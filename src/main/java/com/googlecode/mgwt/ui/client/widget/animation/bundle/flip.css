@@ -4,22 +4,31 @@
   -webkit-animation-fill-mode: both;	
   -webkit-animation-duration: .65s;
   -webkit-backface-visibility: hidden;
+  animation-timing-function: ease-in-out;
+  animation-duration: 300ms;
+  animation-fill-mode: both;	
+  animation-duration: .65s;
+  backface-visibility: hidden;
 }
 
 .in {
   -webkit-animation-name: flipinfromleft;
+  animation-name: flipinfromleft;
 }
 
 .out {
   -webkit-animation-name: flipouttoleft;
+  animation-name: flipouttoleft;
 }
 
 .in.reverse {
   -webkit-animation-name: flipinfromright;
+  animation-name: flipinfromright;
 }
 
 .out.reverse {
   -webkit-animation-name: flipouttoright;
+  animation-name: flipouttoright;
 }
 
 @-webkit-keyframes flipinfromright {
@@ -40,4 +49,24 @@
 @-webkit-keyframes flipouttoright {
   from { -webkit-transform: rotateY(0) scale(1); }
   to { -webkit-transform: rotateY(180deg) scale(.8); }
+}
+
+@keyframes flipinfromright {
+  from { transform: rotateY(-180deg) scale(.8); }
+  to { transform: rotateY(0) scale(1); }
+}
+
+@keyframes flipinfromleft {
+  from { transform: rotateY(180deg) scale(.8); }
+  to { transform: rotateY(0) scale(1); }
+}
+
+@keyframes flipouttoleft {
+  from { transform: rotateY(0) scale(1); }
+  to { transform: rotateY(-180deg) scale(.8); }
+}
+
+@keyframes flipouttoright {
+  from { transform: rotateY(0) scale(1); }
+  to { transform: rotateY(180deg) scale(.8); }
 }

@@ -13,10 +13,12 @@ import java.io.UnsupportedEncodingException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -105,9 +107,18 @@ public class Html5ManifestServletBase extends HttpServlet {
       }
     }
 
-    // if we got here we just don`t know the device react with 500 -> no
-    // manifest...
-    throw new ServletException("unkown device");
+    // if we got here we just don`t know the device react with 500 -> no manifest...
+    // Let's print device details for debugging purposes
+    Iterator<BindingProperty> iterator = computedBindings.iterator();
+    StringBuilder b = new StringBuilder();
+    while (iterator.hasNext())
+    {
+    	BindingProperty prop = iterator.next();
+        b.append(prop.getName() + " = " + prop.getValue() + "\n");
+    }
+    Logger.getLogger("Manifest").info("Unknown device exception report\n------------------\n" + b.toString());
+
+    throw new ServletException("Unkown device is asking for manifiest");
   }
 
   protected String getBaseUrl(HttpServletRequest req) {
@@ -226,6 +237,15 @@ public class Html5ManifestServletBase extends HttpServlet {
 
     try {
       InputStream is = new ByteArrayInputStream(manifest.getBytes("UTF-8"));
+      if (manifest != null)
+      {
+    	  Pattern pattern = Pattern.compile("Unique id #.*");
+    	  Matcher matcher = pattern.matcher(manifest);
+    	  if (matcher.find())
+    	  {
+    		  Logger.getLogger("Manifest").info("Manifest " + matcher.group());
+    	  }
+      }
       ServletOutputStream os = resp.getOutputStream();
       byte[] buffer = new byte[1024];
       int bytesRead;
@@ -263,7 +283,7 @@ public class Html5ManifestServletBase extends HttpServlet {
       Map<String, List<BindingProperty>> map = permutationProvider.getBindingProperties(fileInputStream);
       for (Entry<String, List<BindingProperty>> entry : map.entrySet()) {
         List<BindingProperty> value = entry.getValue();
-        if (value.containsAll(computedBindings) && value.size() == computedBindings.size()) {
+        if (computedBindings.containsAll(value) && value.size() <= computedBindings.size()) {
           return entry.getKey();
         }
       }

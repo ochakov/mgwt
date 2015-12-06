@@ -10,6 +10,7 @@ public class GroupingCellListAndroidAppearance extends GroupingCellListAbstractA
 
   static {
     Resources.INSTANCE.css().ensureInjected();
+    Resources.INSTANCE.groupCss().ensureInjected();
   }
 
   interface Css extends CellListCss {}

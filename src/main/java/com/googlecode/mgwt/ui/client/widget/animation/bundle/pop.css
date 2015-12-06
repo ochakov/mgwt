@@ -2,22 +2,29 @@
   -webkit-animation-timing-function: ease-in-out;
   -webkit-animation-duration: 300ms;
   -webkit-animation-fill-mode: both;
+  animation-timing-function: ease-in-out;
+  animation-duration: 300ms;
+  animation-fill-mode: both;
 }
 
 .in {
   -webkit-animation-name: popin;
+  animation-name: popin;
 }
 
 .out {
   -webkit-animation-name: popout;
+  animation-name: popout;
 }
 
 .in.reverse {
   -webkit-animation-name: popin;
+  animation-name: popin;
 }
 
 .out.reverse {
   -webkit-animation-name: popout;
+  animation-name: popout;
 }
 
 @-webkit-keyframes popin {
@@ -38,6 +45,28 @@
   }
   to {
     -webkit-transform: scale(.3);
+    opacity: 0;
+  }
+}
+
+@keyframes popin {
+  from {
+    transform: scale(.3);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes popout {
+  from {
+    transform: scale(1);
+    opacity: 1;
+  }
+  to {
+    transform: scale(.3);
     opacity: 0;
   }
 }

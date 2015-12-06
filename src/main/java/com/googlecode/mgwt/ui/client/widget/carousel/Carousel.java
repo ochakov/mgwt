@@ -13,6 +13,12 @@
  */
 package com.googlecode.mgwt.ui.client.widget.carousel;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Style.Unit;
@@ -29,9 +35,9 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HasWidgets;
+import com.google.gwt.user.client.ui.RequiresResize;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.web.bindery.event.shared.HandlerRegistration;
-
 import com.googlecode.mgwt.collection.shared.LightArrayInt;
 import com.googlecode.mgwt.dom.client.event.orientation.OrientationChangeEvent;
 import com.googlecode.mgwt.dom.client.event.orientation.OrientationChangeHandler;
@@ -46,23 +52,17 @@ import com.googlecode.mgwt.ui.client.widget.panel.scroll.ScrollPanel;
 import com.googlecode.mgwt.ui.client.widget.panel.scroll.ScrollRefreshEvent;
 import com.googlecode.mgwt.ui.client.widget.touch.TouchWidget;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
-
 /**
  * A carousel renders its children in a row.
  * A user can select a different child by swiping between them.
  *
  */
-public class Carousel extends Composite implements HasWidgets, HasSelectionHandlers<Integer> {
+public class Carousel extends Composite implements HasWidgets, HasSelectionHandlers<Integer>, RequiresResize {
 
   private static class CarouselIndicatorContainer extends Composite {
-    private FlexPanel main;
+    private final FlexPanel main;
     private final CarouselCss css;
-    private ArrayList<CarouselIndicator> indicators;
+    private final ArrayList<CarouselIndicator> indicators;
     private int selectedIndex;
 
     public CarouselIndicatorContainer(CarouselCss css, int numberOfPages) {
@@ -141,7 +141,7 @@ public class Carousel extends Composite implements HasWidgets, HasSelectionHandl
 
   private int currentPage;
 
-  private Map<Widget, Widget> childToHolder;
+  private final Map<Widget, Widget> childToHolder;
   private HandlerRegistration refreshHandler;
 
   private static final CarouselImpl IMPL = GWT.create(CarouselImpl.class);
@@ -220,7 +220,12 @@ public class Carousel extends Composite implements HasWidgets, HasSelectionHandl
         }
       });
     }
+  }
 
+  @Override
+  public void onResize()
+  {
+	  refresh();
   }
 
   @Override
@@ -270,7 +275,7 @@ public class Carousel extends Composite implements HasWidgets, HasSelectionHandl
    */
   public void refresh() {
     hasScollData = false;
-    final int delay = MGWT.getOsDetection().isAndroid() ? 200 : 1;
+    final int delay = MGWT.getOsDetection().isAndroid() ? 400 : 1;
     IMPL.adjust(main, container);
     // allow layout to happen..
     new Timer() {
@@ -308,8 +313,11 @@ public class Carousel extends Composite implements HasWidgets, HasSelectionHandl
 
           @Override
           public void onScrollRefresh(ScrollRefreshEvent event) {
-            refreshHandler.removeHandler();
-            refreshHandler = null;
+        	if (refreshHandler != null)
+        	{
+	            refreshHandler.removeHandler();
+	            refreshHandler = null;
+        	}
             LightArrayInt pagesX = scrollPanel.getPagesX();
             if (currentPage < 0) {
               currentPage = 0;

@@ -8,7 +8,7 @@ import com.googlecode.mgwt.linker.server.BindingProperty;
 public class MgwtOsPropertyProvider extends PropertyProviderBaseImpl {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = -3624651858511204668L;
 	public static final BindingProperty iPhone = new BindingProperty("mgwt.os", "iphone");
@@ -30,52 +30,19 @@ public class MgwtOsPropertyProvider extends PropertyProviderBaseImpl {
 
 		// android
 		if (userAgent.contains("android")) {
-			if (userAgent.contains("mobile")) {
-				return "android";
-			} else {
-				return "android_tablet";
-			}
-
+			return "android";
 		}
-
 		if (userAgent.contains("ipad")) {
-			String value = getRetinaCookieValue(req);
-			if (value == null) {
-				return "ipad_undefined";
-			}
-
-			if ("0".equals(value)) {
-				return "ipad";
-			}
-
-			if ("1".equals(value)) {
-				return "ipad_retina";
-			}
-
+			return "ios";
 		}
-
 		if (userAgent.contains("iphone")) {
-			String value = getRetinaCookieValue(req);
-			if (value == null) {
-				return "iphone_undefined";
-			}
-
-			if ("0".equals(value)) {
-				return "iphone";
-			}
-
-			if ("1".equals(value)) {
-				return "retina";
-			}
-
+			return "ios";
 		}
-
-		if (userAgent.contains("blackberry")) {
-			return "blackberry";
+		if (userAgent.contains("ipod")) {
+			return "ios";
 		}
 
 		return "desktop";
-
 	}
 
 	public String getRetinaCookieValue(HttpServletRequest req) {
